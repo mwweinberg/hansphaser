@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Clever Hans Interactive</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+    var config = {
+        type: Phaser.AUTO,
+        parent: 'phaser-example',
+        width: 800,
+        height: 600,
+        scene: {
+            preload: preload,
+            create: create
+        }
+    };
+
+    var y = 100;
+
+    var game = new Phaser.Game(config);
+
+    var varCountOneText;
+    var varCountTwoText;
+    var totalText;
+
+    function preload ()
+    {
+        //loads all of the assets in the order they are listed
+        //assigns a variable name and then indicates location
+        this.load.image('sky', 'assets/sky.png');
+        this.load.image('ground', 'assets/platform.png');
+        this.load.image('star', 'assets/star.png');
+        this.load.image('bomb', 'assets/bomb.png');
+        this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+    }
+
+    function create ()
+    {
+        //this is the button section
+        //this variable holds the number of clicks
+        let varCountOne = 0;
+        let varCountTwo = 0;
+        let totalTextValue = 0;
+
+        //these are the buttons
+        const varCountOneUpButton = this.add.text(200, 200, '+1.1', { fill: '#0f0' });
+        varCountOneUpButton.setInteractive()
+        const varCountOneDownButton = this.add.text(200, 250, '-1.1', { fill: '#0f0' });
+        varCountOneDownButton.setInteractive()
+
+        const varCountTwoUpButton = this.add.text(400, 200, '+1.2', { fill: '#0f0' });
+        varCountTwoUpButton.setInteractive()
+        const varCountTwoDownButton = this.add.text(400, 250, '-1.2', { fill: '#0f0' });
+        varCountTwoDownButton.setInteractive()
+
+        const totalButton = this.add.text(200, 300, 'horse action', {fill: '#0f0', fontSize: '32px' });
+        totalButton.setInteractive()
+
+        //this is the total
+        const totalText = this.add.text(300, 350, '', {fill: '#0f0', fontSize: '32px' });
+
+        //this is the display variable
+        varCountOneText = this.add.text(210, 150, varCountOne, { fontSize: '32px'});
+        varCountTwoText = this.add.text(410, 150, varCountTwo, { fontSize: '32px'});
+
+        //when you click the button..
+        varCountOneUpButton.on('pointerdown', function () {
+            //increate the value of varCountOne
+            varCountOne = ++varCountOne ;
+            //update the text for varCountOneText
+            varCountOneText.setText(varCountOne);
+        });
+        varCountOneDownButton.on('pointerdown', function () {
+            varCountOne = --varCountOne ;
+            varCountOneText.setText(varCountOne);
+        });
+
+        varCountTwoUpButton.on('pointerdown', function () {
+            varCountTwo = ++varCountTwo ;
+            varCountTwoText.setText(varCountTwo);
+        });
+        varCountTwoDownButton.on('pointerdown', function () {
+            varCountTwo = --varCountTwo ;
+            varCountTwoText.setText(varCountTwo);
+        });
+
+        totalButton.on('pointerdown', function () {
+            totalText.setText(varCountOne + varCountTwo);
+        });
+
+
+
+
+
+        //  Each time a new animation is added to the Animation Manager we'll call this function
+        this.anims.on('add', addAnimation, this);
+
+        var i = 0;
+
+        //  Click to add an animation
+        this.input.on('pointerup', function () {
+
+            switch (i)
+            {
+                case 0:
+                    this.anims.create({
+                        key: 'guy',
+                        frames: this.anims.generateFrameNames('dude', {start: 0, end: 6}),
+                        frameRate: 3,
+                        //number of loops
+                        repeat: 3
+                    });
+                    break;
+
+            }
+
+            i++;
+
+        }, this);
+    }
+
+
+
+    function addAnimation (key)
+    {
+        this.add.sprite(400, y, 'gems').play(key);
+
+        y += 100;
+    }
+</script>
+
+</body>
+</html>
