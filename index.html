@@ -36,6 +36,8 @@
     var horse;
     var loopTimes;
 
+    var variableNumber = 10;
+
     function preload ()
     {
         //loads all of the assets in the order they are listed
@@ -56,7 +58,7 @@
         let totalTextValue = 0;
 
         //these are the buttons
-        const varCountOneUpButton = this.add.text(200, 200, '+1.1', { fill: '#0f0' });
+        const varCountOneUpButton = this.add.image(200, 200, 'star');
         varCountOneUpButton.setInteractive()
         const varCountOneDownButton = this.add.text(200, 250, '-1.1', { fill: '#0f0' });
         varCountOneDownButton.setInteractive()
@@ -101,11 +103,7 @@
             loopTimes = varCountOne + varCountTwo;
             totalText.setText(loopTimes);
             var i = 0;
-            //this while statement is a failed attempt to control the looping
-            while (i < 10) {
-                horse.anims.play('numerate');
-                i++;
-            }
+            horse.anims.play('numerate');
 
         });
 
@@ -119,7 +117,7 @@
             frames: this.anims.generateFrameNumbers('dude', {start: 0, end: 3}),
             frameRate: 10,
             //this reference to loopTimes is another failed attempt to control the looping
-            repeat: loopTimes
+            repeat: variableNumber
         });
 
     }
